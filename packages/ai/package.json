@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@agentic/schemas": "workspace:*",
+    "ulid": "^2.3.0",
     "zod": "^3.24.0"
   },
   "devDependencies": {

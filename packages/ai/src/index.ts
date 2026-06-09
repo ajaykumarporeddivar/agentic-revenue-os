@@ -1,6 +1,19 @@
 export { callLLM, callLLMStructured } from "./gateway.js";
 export type { LLMMessage, LLMConfig, LLMUsage, LLMResponse } from "./gateway.js";
 
+// Runtime: Governor, Event Bus, Registry, Memory tiers, Tools
+export {
+  governor, registerAgent, getContract, listAgents,
+  onEvent, offEvent, emitEvent,
+  registerHandler, registerAgentWithContract,
+  ALL_CONTRACTS, MemoryTier,
+} from "./runtime/index.js";
+export type {
+  AgentContract, GovContext, AgentEvent, AgentRunResult, AgentRunInput,
+  AgentClass, RetryPolicy, FallbackPolicy, ValidationPolicy, EscalationPolicy,
+} from "./runtime/index.js";
+
+// Agent functions
 export { scan } from "./agents/market-signal-scanner.js";
 export type { ScanInput, ScanOutput } from "./agents/market-signal-scanner.js";
 
