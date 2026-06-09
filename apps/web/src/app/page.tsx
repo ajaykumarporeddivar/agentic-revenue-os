@@ -7,7 +7,7 @@ export default function Home() {
     <main style={{ maxWidth: 720, margin: "80px auto", padding: "0 24px" }}>
       <h1 style={{ fontSize: 28, fontWeight: 600, marginBottom: 8 }}>Agentic Revenue OS</h1>
       <p style={{ color: "#555", marginBottom: 32, fontSize: 16, lineHeight: 1.5 }}>
-        Discover validated commercial pain, generate offers, outreach, and proposals, and track revenue — all through governed AI agents.
+        Discover validated commercial pain, generate offers, outreach, and proposals, and track revenue - all through governed AI agents.
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -16,9 +16,8 @@ export default function Home() {
         <DashboardLink href="/offers" label="Offers" desc="Review and approve generated offers" />
         <DashboardLink href="/outreach" label="Outreach" desc="Email and LinkedIn sequences" />
         <DashboardLink href="/proposals" label="Proposals" desc="Sales proposals for qualified leads" />
-        <DashboardLink href="/deals" label="Deals" desc="Pipeline and deal tracking" />
+        <DashboardLink href="/deals" label="Deals" desc="Pipeline, deal tracking, and revenue summary" />
         <DashboardLink href="/approvals" label="Approval Queue" desc="Review and approve agent outputs" />
-        <DashboardLink href="/api/v1/revenue" label="Revenue Dashboard" desc="MRR, ARR, pipeline, and closed revenue" />
       </div>
     </main>
   );

@@ -21,14 +21,22 @@ export async function POST(req: NextRequest) {
     })
     .returning();
 
-  await enqueueJob("agent-jobs", "scan.market", {
-    tenantId,
-    entityId: scan[0].id,
-    requestedByUserId: tenantId,
-  });
+  let queueStatus = "queued";
+  try {
+    await enqueueJob("agent-jobs", "scan.market", {
+      tenantId,
+      entityId: scan[0].id,
+      requestedByUserId: tenantId,
+    });
+  } catch (err) {
+    queueStatus = "queue_unavailable";
+    await db.update(schema.scans)
+      .set({ status: "partial_success", failureReason: "Background queue unavailable. Record was created, but AI processing did not start." })
+      .where(eq(schema.scans.id, scan[0].id));
+  }
 
   log.info("api.request", "Scan created", { tenantId, scanId: scan[0].id });
-  return NextResponse.json({ data: scan[0] }, { status: 201 });
+  return NextResponse.json({ data: { ...scan[0], queueStatus } }, { status: 201 });
 }
 
 export async function GET() {

@@ -11,3 +11,5 @@ turbo.json.log
 .DS_Store
 coverage/
 .turbo/
+
+.vercel

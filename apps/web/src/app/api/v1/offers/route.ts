@@ -25,13 +25,18 @@ export async function POST(req: NextRequest) {
     })
     .returning();
 
-  await enqueueJob("agent-jobs", "offer.design", {
-    tenantId,
-    entityId: offer[0].id,
-    requestedByUserId: tenantId,
-  });
+  let queueStatus = "queued";
+  try {
+    await enqueueJob("agent-jobs", "offer.design", {
+      tenantId,
+      entityId: offer[0].id,
+      requestedByUserId: tenantId,
+    });
+  } catch {
+    queueStatus = "queue_unavailable";
+  }
 
-  return NextResponse.json({ data: offer[0] }, { status: 201 });
+  return NextResponse.json({ data: { ...offer[0], queueStatus } }, { status: 201 });
 }
 
 export async function GET() {

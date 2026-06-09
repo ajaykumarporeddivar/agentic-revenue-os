@@ -1,8 +1,9 @@
 import { z } from "zod";
 
-export const TenantId = z.string().ulid();
+export const EntityId = z.string().min(1);
+export const TenantId = EntityId;
 export type TenantId = z.infer<typeof TenantId>;
-export const WorkflowId = z.string().ulid();
+export const WorkflowId = EntityId;
 export type WorkflowId = z.infer<typeof WorkflowId>;
 
 // ─── Event Envelope ───────────────────────────────────────────────
@@ -13,12 +14,12 @@ export const ActorSchema = z.object({
 export type Actor = z.infer<typeof ActorSchema>;
 
 export const EventEnvelopeSchema = z.object({
-  event_id: z.string().ulid(),
+  event_id: EntityId,
   event_type: z.string(),
   schema_version: z.literal("1.0.0"),
   tenant_id: TenantId,
   workflow_id: WorkflowId.optional(),
-  run_id: z.string().ulid().optional(),
+  run_id: EntityId.optional(),
   correlation_id: z.string().optional(),
   causation_id: z.string().optional(),
   actor: ActorSchema,
@@ -55,7 +56,7 @@ export const ScanConfigSchema = z.object({
 export type ScanConfig = z.infer<typeof ScanConfigSchema>;
 
 export const SignalSchema = z.object({
-  signal_id: z.string().ulid(),
+  signal_id: EntityId,
   source_type: z.enum(["web_search", "job_post", "review", "forum", "competitor_page", "user_note"]),
   source_url: z.string().url().optional(),
   source_title: z.string().optional(),
@@ -70,7 +71,7 @@ export const SignalSchema = z.object({
 export type Signal = z.infer<typeof SignalSchema>;
 
 export const ScanResultSchema = z.object({
-  scan_id: z.string().ulid(),
+  scan_id: EntityId,
   signals: z.array(SignalSchema),
   scan_summary: z.object({
     total_signals: z.number().int(),
@@ -89,7 +90,7 @@ export const BusinessImpactSchema = z.object({
 export type BusinessImpact = z.infer<typeof BusinessImpactSchema>;
 
 export const PainCandidateSchema = z.object({
-  pain_id: z.string().ulid(),
+  pain_id: EntityId,
   pain_statement: z.string().min(1),
   affected_buyer: z.string().min(1),
   affected_users: z.array(z.string()).default([]),
@@ -117,8 +118,8 @@ export const RiskSchema = z.object({
 export type Risk = z.infer<typeof RiskSchema>;
 
 export const OpportunityScoreSchema = z.object({
-  opportunity_id: z.string().ulid(),
-  pain_id: z.string().ulid(),
+  opportunity_id: EntityId,
+  pain_id: EntityId,
   recommended: z.boolean(),
   score_total: z.number().int().min(0).max(100),
   score_breakdown: z.object({
@@ -142,7 +143,7 @@ export type OpportunityScore = z.infer<typeof OpportunityScoreSchema>;
 
 // ─── Offer ────────────────────────────────────────────────────────
 export const OfferSchema = z.object({
-  offer_id: z.string().ulid(),
+  offer_id: EntityId,
   name: z.string().min(1),
   one_sentence_pitch: z.string().min(1),
   target_customer: z.string().min(1),
@@ -182,8 +183,8 @@ export const LinkedInMessageSchema = z.object({
 });
 
 export const OutreachSequenceSchema = z.object({
-  sequence_id: z.string().ulid(),
-  offer_id: z.string().ulid(),
+  sequence_id: EntityId,
+  offer_id: EntityId,
   channels: z.array(z.enum(["email", "linkedin"])).min(1),
   email_sequence: z.array(EmailStepSchema).default([]),
   linkedin_messages: z.array(LinkedInMessageSchema).default([]),
@@ -197,7 +198,7 @@ export type OutreachSequence = z.infer<typeof OutreachSequenceSchema>;
 
 // ─── Proposal ─────────────────────────────────────────────────────
 export const ProposalSchema = z.object({
-  proposal_id: z.string().ulid(),
+  proposal_id: EntityId,
   title: z.string().min(1),
   executive_summary: z.string().min(1),
   problem: z.string().min(1),
@@ -231,7 +232,7 @@ export const QAFixSchema = z.object({
 });
 
 export const QAReviewSchema = z.object({
-  review_id: z.string().ulid(),
+  review_id: EntityId,
   artifact_type: z.enum(["opportunity_score", "offer", "outreach_sequence", "proposal"]),
   verdict: z.enum(["pass", "needs_revision", "fail"]),
   score: z.number().min(0).max(1),
@@ -256,7 +257,7 @@ export type QAReview = z.infer<typeof QAReviewSchema>;
 
 // ─── Lead & Deal ─────────────────────────────────────────────────
 export const LeadSchema = z.object({
-  lead_id: z.string().ulid().optional(),
+  lead_id: EntityId.optional(),
   company_name: z.string().min(1),
   buyer_name: z.string().optional(),
   buyer_role: z.string().optional(),
@@ -270,9 +271,9 @@ export const LeadSchema = z.object({
 export type Lead = z.infer<typeof LeadSchema>;
 
 export const DealSchema = z.object({
-  deal_id: z.string().ulid().optional(),
-  lead_id: z.string().ulid().optional(),
-  offer_id: z.string().ulid().optional(),
+  deal_id: EntityId.optional(),
+  lead_id: EntityId.optional(),
+  offer_id: EntityId.optional(),
   stage: z.enum(["lead", "qualified", "proposal_sent", "negotiation", "won", "lost"]).default("lead"),
   value_cents: z.number().int().min(0).default(0),
   currency: z.string().default("usd"),

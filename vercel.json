@@ -1,5 +1,7 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npx turbo build --filter=@agentic/web...",
-  "outputDirectory": "apps/web/.next"
+  "buildCommand": "cd ../.. && npx turbo build --filter=@agentic/web...",
+  "installCommand": "cd ../.. && pnpm install",
+  "outputDirectory": ".next"
 }
+
