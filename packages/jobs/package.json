@@ -1,0 +1,23 @@
+{
+  "name": "@agentic/jobs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "bullmq": "^5.42.0",
+    "ioredis": "5.10.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}

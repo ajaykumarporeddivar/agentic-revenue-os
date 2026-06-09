@@ -1,0 +1,26 @@
+{
+  "name": "agentic-revenue-os",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "clean": "turbo clean",
+    "db:generate": "pnpm --filter @agentic/database generate",
+    "db:migrate": "pnpm --filter @agentic/database migrate",
+    "db:studio": "pnpm --filter @agentic/database studio",
+    "worker:dev": "pnpm --filter @agentic/worker dev",
+    "web:dev": "pnpm --filter @agentic/web dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
